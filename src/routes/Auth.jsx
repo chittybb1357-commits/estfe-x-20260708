@@ -3,6 +3,12 @@ import { Box, Typography, TextField, Button } from "@mui/material";
 
 function Auth() {
   const [newAccount, setNewAccount] = useState(true);
+  const [form, setForm] = useState({
+    email: "",
+    password: "",
+  });
+
+  console.log(form);
 
   return (
     <>
