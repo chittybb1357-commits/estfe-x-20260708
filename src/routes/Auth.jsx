@@ -14,6 +14,7 @@ function Auth() {
     email: "",
     password: "",
   });
+  const [error, setError] = useState("");
   const auth = authService;
   const provider = new GoogleAuthProvider();
   const handleChange = e => {
@@ -38,6 +39,8 @@ function Auth() {
           const errorMessage = error.message;
 
           console.log(errorCode, errorMessage);
+
+          setError(errorMessage);
         });
     } else {
       signInWithEmailAndPassword(auth, form.email, form.password)
@@ -100,6 +103,8 @@ function Auth() {
         <Button sx={{ mt: 2 }} type="submit" variant="contained">
           {newAccount ? "회원가입" : "로그인"}
         </Button>
+
+        {error && error}
 
         <Divider sx={{ my: 3 }} />
 
