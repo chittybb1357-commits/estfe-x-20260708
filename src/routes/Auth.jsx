@@ -74,7 +74,7 @@ function Auth() {
 
         <Button
           sx={{ mt: 2 }}
-          type="submit"
+          type="button"
           variant="contained"
           onClick={() => {
             setNewAccount(prev => !prev);
