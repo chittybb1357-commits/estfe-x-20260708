@@ -10,18 +10,12 @@ function Auth() {
 
   console.log(form);
 
-  const handleEmailChange = e => {
+  const handleChange = e => {
+    const { name, value } = e.target;
+
     setForm(prev => ({
       ...prev,
-      // email: "aaa@aaa.com",
-      email: e.target.value,
-    }));
-  };
-  const handlePasswordChange = e => {
-    setForm(prev => ({
-      ...prev,
-      // password: "12345678abc",
-      password: e.target.value,
+      [name]: value,
     }));
   };
 
@@ -38,17 +32,17 @@ function Auth() {
           type="text"
           name="email"
           variant="outlined"
-          onChange={handleEmailChange}
+          onChange={handleChange}
         />
 
         <TextField
           sx={{ mt: 2 }}
           fullWidth
           label="Password"
-          type="email"
-          name="email"
+          type="Password"
+          name="Password"
           variant="outlined"
-          onChange={handlePasswordChange}
+          onChange={handleChange}
         />
 
         <Button sx={{ mt: 2 }} type="submit" variant="contained">
