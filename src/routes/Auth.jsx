@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Box } from "@mui/material";
 
 function Auth() {
   const [newAccount, setNewAccount] = useState(true);
@@ -6,6 +7,8 @@ function Auth() {
   return (
     <>
       <h2>Auth</h2>
+
+      <Box component="form"></Box>
     </>
   );
 }
