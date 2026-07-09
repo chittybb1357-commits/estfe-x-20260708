@@ -13,7 +13,8 @@ function Router({ isLoggedIn }) {
         {isLoggedIn ? (
           <>
             <Route path="/" element={<Home />} />
-            <Route path="/profile" element={<profile />} />
+
+            <Route path="/profile" element={<Profile />} />
           </>
         ) : (
           <Route path="/" element={<Auth />} />
