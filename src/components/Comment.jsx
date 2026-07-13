@@ -3,6 +3,12 @@ import { db } from "../firebase";
 import { doc, deleteDoc } from "firebase/firestore";
 
 export default function Comment({ item, isShown }) {
+  const handleDelete = async () => {
+    if (!window.confirm("정말 삭제할까요?")) return;
+
+    await deleteDoc(doc(db, "comments", item.id));
+  };
+
   return (
     <ListItem key={item.id} alignItems="flex-center" divider>
       <ListItemText
@@ -16,7 +22,13 @@ export default function Comment({ item, isShown }) {
             수정
           </Button>
 
-          <Button variant="contained" color="error" size="small">
+          {/*
+           삭제 버튼을 클릭하면, handleDelete 함수 실행 
+           정말 삭제할까요 confirm // 예 // await
+           deleteDoc(doc(db, "comments", 글아이디)); 
+           */}
+
+          <Button variant="contained" color="error" size="small" onClick={handleDelete}>
             삭제
           </Button>
         </Stack>
