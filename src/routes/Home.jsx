@@ -4,6 +4,7 @@ import {
   TextField,
   Button,
   Divider,
+  useScrollTrigger,
   List,
   ListItem,
   ListItemText,
@@ -23,9 +24,10 @@ import { db } from "../firebase";
 import { useEffect, useState } from "react";
 import Comment from "../components/Comment";
 
-function Home() {
+function Home({ userId }) {
   const [comment, setComment] = useState("");
   const [comments, setComments] = useState([]);
+  /* useEffect로 데이터를 조회 결과를 변수명 comments할당 */
   const getComments = async () => {
     const q = query(collection(db, "comments"), orderBy("date", "desc"), limit(5));
 
@@ -53,6 +55,7 @@ function Home() {
         // comment: comment,
         comment,
         date: serverTimestamp(),
+        uid: userId,
       });
 
       setComment("");
@@ -65,8 +68,9 @@ function Home() {
   return (
     <>
       <Typography variant="h2" component="h2">
-        Home{""}
+        Home{" "}
       </Typography>
+
       <Box component="form" sx={{ mt: 2 }} onSubmit={onSubmit}>
         <TextField
           fullWidth
@@ -90,7 +94,7 @@ function Home() {
 
       <List sx={{ width: "100%" }}>
         {comments.map(item => (
-          <Comment key={item.id} item={item} />
+          <Comment key={item.id} item={item} isShown={userId === item.uid} />
         ))}
       </List>
     </>
