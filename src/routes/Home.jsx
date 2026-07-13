@@ -8,7 +8,17 @@ import {
   ListItem,
   ListItemText,
 } from "@mui/material";
-import { collection, addDoc, serverTimestamp, query, where, getDocs } from "firebase/firestore";
+import {
+  collection,
+  addDoc,
+  serverTimestamp,
+  query,
+  where,
+  getDocs,
+  orderBy,
+  limit,
+  onSnapshot,
+} from "firebase/firestore";
 import { db } from "../firebase";
 import { useEffect, useState } from "react";
 
@@ -16,14 +26,13 @@ function Home() {
   const [comment, setComment] = useState("");
   const [comments, setComments] = useState([]);
   const getComments = async () => {
-    const q = query(collection(db, "comments"));
-    const querySnapshot = await getDocs(q);
+    const q = query(collection(db, "comments"), orderBy("date", "desc"), limit(5));
 
-    console.log(querySnapshot);
+    onSnapshot(q, querySnapshot => {
+      const commentsArray = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
 
-    const commentsArray = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-
-    setComments(commentsArray);
+      setComments(commentsArray);
+    });
   };
 
   useEffect(() => {
@@ -46,6 +55,7 @@ function Home() {
       });
 
       setComment("");
+      // getComments();
     } catch (e) {
       console.error("글 추가시 에러가 발생했습니다.", e);
     }
@@ -80,7 +90,10 @@ function Home() {
       <List sx={{ width: "100%", bgcolor: "background.paper" }}>
         {comments.map(item => (
           <ListItem key={item.id} alignItems="flex-start" divider>
-            <ListItemText primary={item.comment} secondary={item.date.toDate().toLocaleString()} />
+            <ListItemText
+              primary={item.comment}
+              secondary={item.date?.toDate ? item.date.toDate().toLocaleString() : "작성시간 없음"}
+            />
           </ListItem>
         ))}
       </List>
