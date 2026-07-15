@@ -56,8 +56,10 @@ function Home({ userId }) {
   };
   const onSubmit = async e => {
     e.preventDefault();
+
     try {
       let imageURL = null;
+
       if (attachment) {
         // 첨부파일이 있으면
         const storageRef = ref(storage, `${userId}/${uuidv4()}`);
@@ -65,13 +67,14 @@ function Home({ userId }) {
 
         imageURL = await getDownloadURL(storageRef); // 이미지 절대 경로 할당
       }
+
       const data = {
         comment,
         date: serverTimestamp(),
         uid: userId,
         image: imageURL,
       };
-      const docRef = await addDoc(collection(db, "comments"), data); //firestore에 글 저장
+      const docRef = await addDoc(collection(db, "comments"), data); // firestore에 글 저장
 
       setComment("");
       onClearFile();
